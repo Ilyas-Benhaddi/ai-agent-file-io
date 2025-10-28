@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent - File I/O Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">🤖</span>
+                <h1>AI Agent Dashboard</h1>
+            </div>
+            <div class="status" id="status">
+                <span class="status-dot"></span>
+                <span class="status-text">Connecting...</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Chat Section -->
+            <section class="chat-section">
+                <div class="section-header">
+                    <h2>💬 Chat with Agent</h2>
+                    <button class="btn btn-secondary" onclick="clearChat()">Clear Chat</button>
+                </div>
+
+                <div class="chat-container" id="chatContainer">
+                    <div class="welcome-message">
+                        <h3>👋 Welcome!</h3>
+                        <p>Chat with your AI agent to manage files. Try these commands:</p>
+                        <ul>
+                            <li>Create a file called notes.txt with my shopping list</li>
+                            <li>Read the notes.txt file</li>
+                            <li>What files do I have?</li>
+                            <li>Write a report about AI trends to report.txt</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="chat-input-container">
+                    <textarea
+                        id="messageInput"
+                        placeholder="Type your message... (Press Enter to send, Shift+Enter for new line)"
+                        rows="3"
+                    ></textarea>
+                    <button class="btn btn-primary" onclick="sendMessage()" id="sendButton">
+                        <span>Send</span>
+                        <span class="button-icon">📤</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Files Section -->
+            <section class="files-section">
+                <div class="section-header">
+                    <h2>📁 File Storage</h2>
+                    <button class="btn btn-secondary" onclick="loadFiles()">
+                        <span class="button-icon">🔄</span>
+                        Refresh
+                    </button>
+                </div>
+
+                <div class="files-stats" id="filesStats">
+                    <div class="stat-card">
+                        <span class="stat-value" id="fileCount">0</span>
+                        <span class="stat-label">Files</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="totalSize">0 KB</span>
+                        <span class="stat-label">Total Size</span>
+                    </div>
+                </div>
+
+                <div class="files-list" id="filesList">
+                    <div class="empty-state">
+                        <span class="empty-icon">📂</span>
+                        <p>No files yet</p>
+                        <small>Create files by chatting with the agent</small>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Powered by Google Gemini AI & MinIO Storage</p>
+            <a href="/docs" target="_blank">API Documentation</a>
+        </footer>
+    </div>
+
+    <!-- File Preview Modal -->
+    <div class="modal" id="fileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalFileName">File Preview</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <pre id="modalFileContent"></pre>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
