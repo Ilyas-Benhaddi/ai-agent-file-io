@@ -52,5 +52,6 @@ echo ""
 echo "Press Ctrl+C to stop"
 echo ""
 
-# Start ADK web interface (all-in-one command!)
+# Start ADK web interface
+# Note: adk_agent is now a directory containing the agent configuration
 adk web --port 8000 adk_agent
