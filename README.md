@@ -11,6 +11,7 @@ An intelligent AI agent powered by Google Gemini that can read, write, and manag
 - 💬 **Interactive Chat**: Chat interface for seamless interaction
 - 🌐 **Web Dashboard**: Beautiful web interface for agent interaction and file management
 - 🎨 **Real-Time UI**: Live updates and modern, responsive design
+- 🚀 **Google ADK Integration**: Visualize your agent with Google's official Agent Development Kit Web UI
 
 ## 🚀 Quick Start
 
@@ -61,14 +62,48 @@ python test_agent.py
 # Interactive mode (CLI)
 python test_agent_interactive.py
 
-# Web interface (Recommended!)
+# Web interface
 python src/api.py
 # Then open http://localhost:8000 in your browser
+
+# Google ADK Web (Recommended for visualization!)
+./start_adk.sh
+# See ADK_SETUP.md for complete instructions
 ```
 
 ## 📋 Usage Examples
 
-### 🌐 Web Dashboard (Recommended)
+### 🚀 Google ADK Web (Official Visualization - Recommended!)
+
+The best way to visualize and debug your agent is using Google's official Agent Development Kit Web UI.
+
+**See [ADK_SETUP.md](ADK_SETUP.md) for complete setup instructions.**
+
+Quick start:
+```bash
+# 1. Install ADK
+pip install google-adk
+
+# 2. Start API server
+./start_adk.sh
+
+# 3. In another terminal, clone and start ADK web
+git clone https://github.com/google/adk-web.git
+cd adk-web
+npm install
+npm run serve -- --backend=http://localhost:8000
+
+# 4. Open http://localhost:4200
+```
+
+ADK Web Features:
+- 📊 **Visual Agent Dashboard** - See agent configuration and status
+- 💬 **Interactive Chat** - Talk with your agent in real-time
+- 🔧 **Tool Execution View** - Watch tools being called
+- 📈 **Execution Traces** - Debug every step
+- 📝 **Session History** - Save and replay conversations
+
+### 🌐 Web Dashboard (Custom UI)
 
 Start the web server:
 ```bash
