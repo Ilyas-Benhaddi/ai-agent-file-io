@@ -77,24 +77,25 @@ python src/api.py
 
 The best way to visualize and debug your agent is using Google's official Agent Development Kit Web UI.
 
-**See [ADK_SETUP.md](ADK_SETUP.md) for complete setup instructions.**
+**Super simple - just one command!**
 
-Quick start:
 ```bash
 # 1. Install ADK
 pip install google-adk
 
-# 2. Start API server
+# 2. Start MinIO
+docker-compose up -d
+
+# 3. Start ADK Web (all-in-one!)
 ./start_adk.sh
+# Or: adk web --port 8000 adk_agent
 
-# 3. In another terminal, clone and start ADK web
-git clone https://github.com/google/adk-web.git
-cd adk-web
-npm install
-npm run serve -- --backend=http://localhost:8000
-
-# 4. Open http://localhost:4200
+# 4. Open http://localhost:8000
+# 5. Select 'file_io_agent' from dropdown (upper right)
+# 6. Start chatting!
 ```
+
+**See [ADK_SETUP.md](ADK_SETUP.md) for complete setup instructions.**
 
 ADK Web Features:
 - 📊 **Visual Agent Dashboard** - See agent configuration and status
@@ -102,6 +103,7 @@ ADK Web Features:
 - 🔧 **Tool Execution View** - Watch tools being called
 - 📈 **Execution Traces** - Debug every step
 - 📝 **Session History** - Save and replay conversations
+- ✨ **All-in-One** - No need to clone separate repos!
 
 ### 🌐 Web Dashboard (Custom UI)
 

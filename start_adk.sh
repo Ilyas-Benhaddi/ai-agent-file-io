@@ -1,7 +1,7 @@
 #!/bin/bash
-# Start ADK API Server for Agent Visualization
+# Start ADK Web Interface - Simple All-in-One
 
-echo "🤖 Starting Google ADK API Server..."
+echo "🚀 Starting Google ADK Web Interface..."
 echo ""
 
 # Check if .env exists
@@ -35,24 +35,22 @@ fi
 
 echo "✅ All checks passed!"
 echo ""
-echo "🚀 Starting ADK API Server..."
+echo "🌐 Starting ADK Web Interface..."
 echo "   Agent File: adk_agent.py"
-echo "   API Server: http://localhost:8000"
-echo "   CORS: http://localhost:4200"
+echo "   Web Interface: http://localhost:8000"
 echo ""
-echo "📝 Next steps:"
-echo "   1. Keep this terminal running"
-echo "   2. In another terminal, start ADK Web:"
-echo "      cd /path/to/adk-web"
-echo "      npm run serve -- --backend=http://localhost:8000"
-echo "   3. Open browser: http://localhost:4200"
+echo "📝 Instructions:"
+echo "   1. Open browser: http://localhost:8000"
+echo "   2. Select 'file_io_agent' from the dropdown (upper right)"
+echo "   3. Start chatting with your agent!"
+echo ""
+echo "💡 Try these commands:"
+echo "   - Create a file called notes.txt with my shopping list"
+echo "   - What files do I have?"
+echo "   - Read the notes.txt file"
 echo ""
 echo "Press Ctrl+C to stop"
 echo ""
 
-# Start ADK API server
-adk api_server \
-    --agent_file=adk_agent.py \
-    --allow_origins=http://localhost:4200 \
-    --host=0.0.0.0 \
-    --port=8000
+# Start ADK web interface (all-in-one command!)
+adk web --port 8000 adk_agent
