@@ -9,6 +9,8 @@ An intelligent AI agent powered by Google Gemini that can read, write, and manag
 - 🗄️ **S3-Compatible Storage**: MinIO for reliable, scalable file storage
 - 🔧 **Function Calling**: AI automatically uses tools to complete tasks
 - 💬 **Interactive Chat**: Chat interface for seamless interaction
+- 🌐 **Web Dashboard**: Beautiful web interface for agent interaction and file management
+- 🎨 **Real-Time UI**: Live updates and modern, responsive design
 
 ## 🚀 Quick Start
 
@@ -56,13 +58,35 @@ python test_storage.py
 # Test agent
 python test_agent.py
 
-# Interactive mode
+# Interactive mode (CLI)
 python test_agent_interactive.py
+
+# Web interface (Recommended!)
+python src/api.py
+# Then open http://localhost:8000 in your browser
 ```
 
 ## 📋 Usage Examples
 
-### Interactive Chat
+### 🌐 Web Dashboard (Recommended)
+
+Start the web server:
+```bash
+python src/api.py
+# Or with uvicorn directly:
+# uvicorn src.api:app --host 0.0.0.0 --port 8000 --reload
+```
+
+Then open your browser to: **http://localhost:8000**
+
+Features:
+- 💬 **Real-time chat** with the AI agent
+- 📁 **File browser** with view/delete operations
+- 📊 **Storage statistics** (file count, total size)
+- 🎨 **Beautiful dark-themed UI** with smooth animations
+- 📱 **Responsive design** works on mobile and desktop
+
+### Interactive CLI Chat
 ```bash
 python test_agent_interactive.py
 ```
@@ -130,8 +154,13 @@ print(response)
 agent_project/
 ├── src/
 │   ├── agent.py              # AI agent core
+│   ├── api.py                # FastAPI web server
 │   ├── file_tools.py         # File operation tools
 │   └── storage_service.py    # MinIO integration
+├── static/
+│   ├── index.html            # Web dashboard UI
+│   ├── style.css             # Dashboard styling
+│   └── app.js                # Frontend JavaScript
 ├── config/
 │   └── settings.py           # Configuration management
 ├── docker-compose.yml        # MinIO setup
@@ -139,7 +168,7 @@ agent_project/
 ├── .env.example             # Environment template
 ├── test_storage.py          # Storage tests
 ├── test_agent.py            # Agent tests
-└── test_agent_interactive.py # Interactive chat
+└── test_agent_interactive.py # Interactive CLI chat
 ```
 
 ## 🔧 Configuration
@@ -155,24 +184,80 @@ agent_project/
 | `MINIO_SECRET_KEY` | MinIO secret key | minioadmin123 |
 | `MINIO_BUCKET_NAME` | Storage bucket name | agent-files |
 
-### MinIO Ports
+### Ports
 
+**Web Dashboard:**
+- **Dashboard**: http://localhost:8000
+- **API Docs**: http://localhost:8000/docs (Swagger UI)
+
+**MinIO:**
 - **API**: http://localhost:9002
 - **Console**: http://localhost:9003
   - Username: `minioadmin`
   - Password: `minioadmin123`
 
 ## 🧪 Testing
+
+### Automated Tests
 ```bash
 # Test storage service
 python test_storage.py
 
 # Test AI agent
 python test_agent.py
-
-# Interactive mode
-python test_agent_interactive.py
 ```
+
+### Interactive Testing
+```bash
+# CLI mode
+python test_agent_interactive.py
+
+# Web interface (Best experience!)
+python src/api.py
+# Open http://localhost:8000
+```
+
+### API Testing
+```bash
+# Start the server
+python src/api.py
+
+# Test endpoints with curl
+curl http://localhost:8000/health
+curl -X POST http://localhost:8000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Create a file called test.txt with hello world"}'
+curl http://localhost:8000/api/files
+```
+
+## 🔌 API Reference
+
+The web server provides a REST API for programmatic access:
+
+### Endpoints
+
+**POST /api/chat**
+- Chat with the AI agent
+- Body: `{"message": "your message"}`
+- Response: `{"response": "agent response", "success": true}`
+
+**GET /api/files**
+- List all files in storage
+- Response: `{"files": [...], "count": N, "success": true}`
+
+**GET /api/files/{filename}**
+- Read a specific file
+- Response: `{"filename": "...", "content": "...", "size": N, "success": true}`
+
+**DELETE /api/files/{filename}**
+- Delete a file
+- Response: `{"success": true, "message": "..."}`
+
+**GET /health**
+- Health check
+- Response: `{"status": "healthy", "agent_initialized": true, "storage_initialized": true}`
+
+**Interactive API Documentation**: http://localhost:8000/docs
 
 ## 🛠️ Development
 
