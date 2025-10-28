@@ -2,13 +2,18 @@
 FastAPI Web Server for AI Agent
 Provides REST API and web interface
 """
+import sys
+import os
+
+# Add project root to Python path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, FileResponse
 from pydantic import BaseModel
 from typing import Optional
 import logging
-import os
 
 from src.agent import Agent
 from src.storage_service import StorageService
