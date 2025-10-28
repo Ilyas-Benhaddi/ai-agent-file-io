@@ -7,13 +7,15 @@ This guide will help you visualize your AI agent using **Google's Agent Developm
 Before starting, ensure you have:
 
 - ✅ Python 3.9+
-- ✅ Node.js and npm (for ADK web UI)
 - ✅ Docker (for MinIO)
 - ✅ Google API Key (already in `.env`)
+- ✅ Virtual environment activated
 
 ---
 
-## 🔧 Step 1: Install ADK Python Package
+## 🔧 Setup (3 Simple Steps!)
+
+### Step 1: Install ADK
 
 ```bash
 # Make sure you're in your virtual environment
@@ -26,9 +28,7 @@ pip install -r requirements.txt
 python -c "from google.adk.agents import LlmAgent; print('✅ ADK installed!')"
 ```
 
----
-
-## 🗄️ Step 2: Start MinIO (Storage Service)
+### Step 2: Start MinIO (Storage Service)
 
 ```bash
 # Start MinIO in Docker
@@ -42,146 +42,104 @@ You should see MinIO running on:
 - API: http://localhost:9002
 - Console: http://localhost:9003
 
----
-
-## 🤖 Step 3: Test the ADK Agent
-
-Test that your agent works before launching the UI:
+### Step 3: Start ADK Web Interface
 
 ```bash
-# Test the ADK agent
-python adk_agent.py
+# One simple command to start everything!
+./start_adk.sh
+
+# Or manually:
+adk web --port 8000 adk_agent
 ```
 
-You should see:
+**That's it!** The web interface is now running.
+
+---
+
+## 🎉 Access ADK Web
+
+Open your browser to: **http://localhost:8000**
+
+### First Time Setup:
+1. **Select Agent**: Click the dropdown in the upper right corner
+2. **Choose `file_io_agent`** from the list
+3. **Start Chatting!** Type your first message
+
+---
+
+## 💬 Try These Commands
+
+Once the interface loads, try:
+
 ```
-✅ ADK Agent initialized!
-   Name: file_io_agent
-   Model: gemini-1.5-flash
-   Tools: 3
+You: Create a file called notes.txt with my shopping list: milk, eggs, bread
+Agent: [Creates the file and confirms]
+
+You: What files do I have?
+Agent: [Lists all files in storage]
+
+You: Read the notes.txt file
+Agent: [Shows file content]
+
+You: Write a report about AI trends to report.txt
+Agent: [Generates and saves the report]
 ```
 
 ---
 
-## 🚀 Step 4: Start ADK API Server
+## 🎨 ADK Web Interface Features
 
-In one terminal, start the ADK API server:
+### What You'll See:
 
-```bash
-# Navigate to your project directory
-cd /path/to/agent_project
+**Chat Interface:**
+- 💬 Natural conversation with your agent
+- 🔧 Real-time tool execution visualization
+- 📊 Function call traces
+- 📝 Full conversation history
 
-# Activate virtual environment
-source .venv/bin/activate
+**Agent Dashboard:**
+- ⚙️ Agent configuration and settings
+- 🛠️ Available tools display
+- 📈 Execution statistics
+- 🔍 Debug mode for troubleshooting
 
-# Start ADK API server
-adk api_server \
-    --agent_file=adk_agent.py \
-    --allow_origins=http://localhost:4200 \
-    --host=0.0.0.0 \
-    --port=8000
-```
-
-**Important Notes:**
-- The `--agent_file` points to your ADK agent file
-- The `--allow_origins` enables CORS for the web UI
-- Keep this terminal running!
-
-You should see:
-```
-INFO:     Started server process
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     Uvicorn running on http://0.0.0.0:8000
-```
-
----
-
-## 🌐 Step 5: Install and Run ADK Web UI
-
-In a **NEW terminal** (keep the API server running):
-
-```bash
-# Clone ADK web repository
-git clone https://github.com/google/adk-web.git
-cd adk-web
-
-# Install dependencies (first time only)
-npm install
-
-# Start the web UI
-npm run serve -- --backend=http://localhost:8000
-```
-
-**Note:** This may take a few minutes the first time.
-
-You should see:
-```
-** Angular Live Development Server is listening on localhost:4200 **
-✔ Compiled successfully.
-```
-
----
-
-## 🎉 Step 6: Access ADK Web
-
-Open your browser to: **http://localhost:4200**
-
-You'll see the Google ADK Web interface with:
-- 📊 **Agent Dashboard** - View agent information
-- 💬 **Chat Interface** - Interact with your agent
-- 🔧 **Tool Execution View** - See when tools are called
-- 📈 **Execution Traces** - Debug agent behavior
-- 📝 **Session History** - Review past interactions
-
----
-
-## 🎯 Using Your Agent in ADK Web
-
-Once the UI loads:
-
-1. **Select Agent**: Choose `file_io_agent` from the dropdown
-2. **Start Chatting**: Type messages like:
-   - "Create a file called notes.txt with my shopping list"
-   - "Read the notes.txt file"
-   - "What files do I have?"
-   - "Write a report about AI trends to report.txt"
-
-3. **Watch Tool Execution**:
-   - See when your agent calls `read_file()`, `write_file()`, or `list_files()`
-   - View the responses in real-time
-   - Debug any issues with the trace viewer
+**Tool Execution View:**
+- Watch when `read_file()` is called
+- See `write_file()` parameters
+- Monitor `list_files()` results
+- Debug any errors in real-time
 
 ---
 
 ## 📁 What Just Happened?
 
-Your setup now has **3 running services**:
+Your setup now has **2 running services**:
 
 | Service | Port | Purpose |
 |---------|------|---------|
 | **MinIO** | 9002/9003 | File storage backend |
-| **ADK API** | 8000 | Agent runtime server |
-| **ADK Web** | 4200 | Visualization UI |
+| **ADK Web** | 8000 | Agent + Web UI (all-in-one!) |
 
 ```
 ┌─────────────┐
-│   Browser   │ http://localhost:4200
+│   Browser   │ http://localhost:8000
 │  (ADK Web)  │
 └──────┬──────┘
        │
        ↓
 ┌─────────────────┐
-│  ADK API Server │ http://localhost:8000
-│  (Python Agent) │
+│  ADK Framework  │ (Python Agent + Web Server)
+│  file_io_agent  │
 └──────┬──────────┘
        │
        ↓
 ┌─────────────────┐
 │  MinIO Storage  │ http://localhost:9002
-│   (S3-compatible)│
+│   (File Backend)│
 └─────────────────┘
 ```
+
+**Much simpler than before!** The `adk web` command handles everything.
 
 ---
 
@@ -192,8 +150,8 @@ Your setup now has **3 running services**:
 # Reinstall ADK
 pip install --upgrade google-adk
 
-# Or use python -m
-python -m google.adk.cli.main api_server --agent_file=adk_agent.py
+# Verify PATH
+which adk
 ```
 
 ### "ModuleNotFoundError: No module named 'google.adk'"
@@ -203,10 +161,11 @@ source .venv/bin/activate
 pip install google-adk
 ```
 
-### "CORS error" in browser
-Make sure you started the API server with:
+### "Agent not found"
+Make sure you're in the project directory when running:
 ```bash
---allow_origins=http://localhost:4200
+cd /path/to/agent_project
+./start_adk.sh
 ```
 
 ### MinIO not connecting
@@ -218,99 +177,52 @@ docker ps | grep minio
 docker-compose restart
 ```
 
-### Port 8000 or 4200 already in use
+### Port 8000 already in use
 ```bash
-# For API server, use different port:
-adk api_server --agent_file=adk_agent.py --port=8001
-
-# For web UI, change in adk-web/.angular.json or use different backend
+# Use different port
+adk web --port 8001 adk_agent
 ```
 
----
-
-## 🎨 ADK Web Features You Can Use
-
-### 1. **Chat Interface**
-- Natural conversation with your agent
-- See tool calls in real-time
-- View formatted responses
-
-### 2. **Execution Trace**
-- Step-by-step execution view
-- See LLM prompts and responses
-- Debug tool calls and errors
-
-### 3. **Session Management**
-- Save conversation sessions
-- Load previous sessions
-- Compare different runs
-
-### 4. **Agent Configuration**
-- View agent settings
-- See available tools
-- Check model configuration
-
----
-
-## 📚 Additional Commands
-
-### Stop Services
-```bash
-# Stop MinIO
-docker-compose down
-
-# Stop ADK API (Ctrl+C in that terminal)
-
-# Stop ADK Web (Ctrl+C in that terminal)
-```
-
-### Clean Restart
-```bash
-# Restart everything
-docker-compose restart
-# Then restart ADK API and Web
-```
-
-### Update ADK
-```bash
-pip install --upgrade google-adk
-```
+### Can't see agent in dropdown
+- Refresh the page
+- Check terminal for errors
+- Verify adk_agent.py has `root_agent` defined
 
 ---
 
 ## 🎯 Quick Start Commands
 
-### Terminal 1: MinIO
+### Complete Startup:
+
 ```bash
+# Terminal 1: Start MinIO
 docker-compose up -d
-```
 
-### Terminal 2: ADK API
-```bash
+# Terminal 2: Start ADK Web
 source .venv/bin/activate
-adk api_server --agent_file=adk_agent.py --allow_origins=http://localhost:4200 --host=0.0.0.0
+./start_adk.sh
+
+# Browser: Open
+http://localhost:8000
 ```
 
-### Terminal 3: ADK Web
+### Quick Stop:
 ```bash
-cd ../adk-web  # Navigate to adk-web repo
-npm run serve -- --backend=http://localhost:8000
-```
-
-### Browser
-```
-http://localhost:4200
+# Stop ADK (Ctrl+C in terminal)
+# Stop MinIO
+docker-compose down
 ```
 
 ---
 
-## 🌟 Benefits of Using ADK Web
+## 🌟 Benefits of ADK Web
 
+✅ **All-in-One** - Single command starts everything
 ✅ **Official Google Tool** - Built by the Gemini team
 ✅ **Rich Visualization** - See exactly what your agent is doing
-✅ **Debugging Tools** - Trace every step of agent execution
+✅ **Debugging Tools** - Trace every step of execution
 ✅ **Session Management** - Save and replay interactions
-✅ **Multi-Agent Support** - Visualize agent hierarchies
+✅ **No External Setup** - No need to clone adk-web repo
 ✅ **Real-Time Updates** - Watch your agent work live
 
 ---
@@ -318,10 +230,19 @@ http://localhost:4200
 ## 📖 Learn More
 
 - [ADK Python Docs](https://github.com/google/adk-python)
-- [ADK Web Docs](https://github.com/google/adk-web)
 - [Official ADK Documentation](https://google.github.io/adk-docs/)
 - [ADK Codelabs](https://codelabs.developers.google.com/your-first-agent-with-adk)
 
 ---
 
-**Ready to visualize your agent?** Follow the steps above and enjoy the official Google ADK experience! 🚀
+## 💡 Pro Tips
+
+1. **Use the dropdown** in the upper right to select your agent
+2. **Check the trace view** to see tool calls in detail
+3. **Save sessions** for later review and debugging
+4. **Use debug mode** to see full LLM prompts and responses
+5. **Try different prompts** to test edge cases
+
+---
+
+**Ready to visualize your agent?** Just run `./start_adk.sh` and go! 🚀
