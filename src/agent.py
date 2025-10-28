@@ -35,7 +35,7 @@ class Agent:
         # Initialize model with tools
         self.model = genai.GenerativeModel(
             model_name=settings.agent_model,
-
+            tools=[READ_FILE_TOOL, WRITE_FILE_TOOL, LIST_FILES_TOOL]
         )
         
         logger.info(f"✅ Agent initialized with model: {settings.agent_model}")
